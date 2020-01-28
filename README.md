@@ -29,7 +29,7 @@ print(period.date) # start date of term or holiday
 ### Getting the week number (terms)
 ```py
 if type(period) is Term:
-    print("Week " + period.weeknum(date.today()))
+    print("Week " + period.getWeekNum(date.today()))
     # If you're specifying something other than date.today(),
     # it needs to be the same date you provided to getPeriod()
 ```
@@ -37,7 +37,7 @@ if type(period) is Term:
 ### Getting a formatted string
 ```py
 print(period.toString(date.today()))
-# as with weeknum(), this needs to be the same date you 
+# as with getWeekNum(), this needs to be the same date you 
 # provided to getPeriod()
 ```
 
