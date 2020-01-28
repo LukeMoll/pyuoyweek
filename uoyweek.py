@@ -5,7 +5,7 @@ from calendar import day_name, day_abbr
 from argparse import ArgumentParser
 
 def main(short=False, lower=False):
-    print(getTerm(date.today()).toString(date.today(),short=short, lowerC=lower))
+    print(getPeriod(date.today()).toString(date.today(),short=short, lowerC=lower))
 
 class Period:
     def __init__(self, date: date, name: str):
@@ -25,11 +25,13 @@ class Term(Period):
         date = date - timedelta(days=date.weekday())
         Period.__init__(self, date, name)
 
+    def weeknum(self, today: date):
+        return (today - self.start).days // 7 + 1
+
     def toString(self, today: date, short=False, lowerC=False):
-        weeknum = (today - self.start).days // 7 + 1
         t = self.name[:3] if short else self.name
         d = day_abbr[today.weekday()] if short else day_name[today.weekday()]
-        result = "{}/{}/{}".format(t, weeknum, d)
+        result = "{}/{}/{}".format(t, self.weeknum(today), d)
         return result.lower() if lowerC else result
 
 class Holiday(Period):
@@ -49,6 +51,9 @@ class Holiday(Period):
 # Which would would tranlate to:
 #  Term(    date(2020, 1,  6), "Spring" ),
 #  Holiday( date(2020, 3, 13), "Easter" )
+#
+# The tools/ folder in the git repository contains regex.py which should
+# assist you with this.
 
 dates = sorted([
     Holiday(date(2018,11,30),"Christmas"),
@@ -112,7 +117,15 @@ dates = sorted([
     Holiday(date(2028,6,30),"Summer")
 ], key=lambda p:p.start)
 
-def getTerm(today: date):
+def getPeriod(today: date) -> Period:
+    """Returns the Period in which a given date falls
+    
+    Args:
+        today (date): which date to search for
+    
+    Returns:
+        Period: Term or Holiday which this date falls in
+    """
     return max(filter(lambda p:p.start <= today, dates), key=lambda p:p.start)
     # we can probably optimise this, since `dates` is known to be in chronological order,
     # to return the last date from the start that is before today

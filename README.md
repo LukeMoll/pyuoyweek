@@ -10,6 +10,40 @@ You can also clone the repository if you'd like to add new term dates (there's a
 ## Usage
 Simply run `./uoyweek.py` or `python3 uoyweek.py`. More options can be found with the `-h` flag, such as lowercase (`-l`) or short output (`-s`).
 
+## As a library
+You may want to use this in your own python projects instead of just calling the script - while the source is fairly straightforward, here are some points you may be interested in:
+
+```py
+# uoyweek.py should be in the directory as the script you're importing it from
+import uoyweek, date
+```
+
+### Getting the week
+```py
+period = uoyweek.getPeriod(date.today()) 
+
+print(period.name) # term or holiday name
+print(period.date) # start date of term or holiday
+```
+
+### Getting the week number (terms)
+```py
+if type(period) is Term:
+    print("Week " + period.weeknum(date.today()))
+    # If you're specifying something other than date.today(),
+    # it needs to be the same date you provided to getPeriod()
+```
+
+### Getting a formatted string
+```py
+print(period.toString(date.today()))
+# as with weeknum(), this needs to be the same date you 
+# provided to getPeriod()
+```
+
+### Using term dates directly
+The `dates` list is also importable, and is in chronological order. If you select a Period from the list, you can assume that it ends at the start of the next Period in the list.
+
 ## Building an executable
 Although the python script with a shebang is arguably more portable than an executable, you can create one if you'd like:  
 With `cython` and `gcc`:
