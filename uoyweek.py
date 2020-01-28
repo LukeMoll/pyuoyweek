@@ -40,6 +40,16 @@ class Holiday(Period):
         result = self.name + ("" if short else " Holidays")
         return result.lower() if lowerC else result
 
+# Term dates can be found at https://www.york.ac.uk/about/term-dates/ 
+# When updating these, the term begins on the same day listed on the 
+# website, and holidays begin on the last day listed.
+#
+# For example, for Spring Term 2019/2020, the website lists:
+#  Spring Term: Monday 6 January 2020 - Friday 13 March 2020
+# Which would would tranlate to:
+#  Term(    date(2020, 1,  6), "Spring" ),
+#  Holiday( date(2020, 3, 13), "Easter" )
+
 dates = sorted([
     Holiday(date(2018,11,30),"Christmas"),
     Term(date(2019,1,7),"Spring"),
@@ -72,7 +82,34 @@ dates = sorted([
     Holiday(date(2023,6,23),"Summer"),
     Term(date(2023,9,25),"Autumn"),
     Holiday(date(2023,12,1),"Christmas"),
-    Term(date(2024,1,8),"Spring")
+    Term(date(2024,1,8),"Spring"),
+    Holiday(date(2024,3,15), "Easter"),
+    Term(date(2024,4,15), "Summer"),
+    Holiday(date(2024,6,21), "Summer"),
+    Term(date(2024,9,23),"Autumn"),
+    Holiday(date(2024,11,29),"Christmas"),
+    Term(date(2025,1,6),"Spring"),
+    Holiday(date(2025,3,14),"Easter"),
+    Term(date(2025,4,22),"Summer"),
+    Holiday(date(2025,6,27),"Summer"),
+    Term(date(2025,9,29),"Autumn"),
+    Holiday(date(2025,12,5),"Christmas"),
+    Term(date(2026,1,12),"Spring"),
+    Holiday(date(2026,3,20),"Easter"),
+    Term(date(2026,4,20),"Summer"),
+    Holiday(date(2026,6,26),"Summer"),
+    Term(date(2026,9,28),"Autumn"),
+    Holiday(date(2026,12,4),"Christmas"),
+    Term(date(2027,1,11),"Spring"),
+    Holiday(date(2027,3,19),"Easter"),
+    Term(date(2027,4,19),"Summer"),
+    Holiday(date(2027,6,25),"Summer"),
+    Term(date(2027,9,27),"Autumn"),
+    Holiday(date(2027,12,3),"Christmas"),
+    Term(date(2028,1,10),"Spring"),
+    Holiday(date(2028,3,17),"Easter"),
+    Term(date(2028,4,24),"Summer"),
+    Holiday(date(2028,6,30),"Summer")
 ], key=lambda p:p.start)
 
 def getTerm(today: date):
