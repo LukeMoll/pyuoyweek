@@ -5,7 +5,13 @@ from calendar import day_name, day_abbr
 from argparse import ArgumentParser
 from typing import Union
 
-def main(short:bool=False, lower:bool=False) -> None:
+def main() -> None:
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--short", help="Prints a shortened version of the date, abbreviating the term and day.", action="store_true")
+    parser.add_argument("-l", "--lower", help="Converts to lowercase.", action="store_true")
+    args = parser.parse_args()
+    short = args.short
+    lower = args.lower
     print(getPeriod(date.today()).toString(date.today(),short=short, lowerC=lower))
 
 class Period:
@@ -136,8 +142,4 @@ def getPeriod(today: date) -> Period:
     # to return the last date from the start that is before today
 
 if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument("-s", "--short", help="Prints a shortened version of the date, abbreviating the term and day.", action="store_true")
-    parser.add_argument("-l", "--lower", help="Converts to lowercase.", action="store_true")
-    args = parser.parse_args()
-    main(**vars(args))
+    main()
