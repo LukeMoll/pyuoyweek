@@ -34,7 +34,7 @@ class Term(Period):
         weeknum = self.getWeekNum(today)
         t = self.name[:3] if short else self.name
         d = day_abbr[today.weekday()] if short else day_name[today.weekday()]
-        result = "{}/{}/{}".format(t, self.weeknum(today), d)
+        result = "{}/{}/{}".format(t, self.getWeekNum(today), d)
         return result.lower() if lowerC else result
 
 class Holiday(Period):
