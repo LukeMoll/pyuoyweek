@@ -3,8 +3,9 @@
 from datetime import date, timedelta
 from calendar import day_name, day_abbr
 from argparse import ArgumentParser
+from typing import Union
 
-def main(short=False, lower=False):
+def main(short:bool=False, lower:bool=False) -> None:
     print(getPeriod(date.today()).toString(date.today(),short=short, lowerC=lower))
 
 class Period:
@@ -12,36 +13,36 @@ class Period:
         self.start = date
         self.name = name
     
-    def toString(self, today: date):
+    def toString(self, today: date, short:bool=False, lowerC:bool=False) -> Union[str, None]:
         if self.start <= today:
             return self.name
         else:
             return None
-    def __str__(self):
+    def __str__(self) -> str:
         return "{} \"{}\" at {}".format(self.__class__.__name__, self.name, self.start)
 
-    def __repr__(self): return self.__str__()
+    def __repr__(self) -> str: return self.__str__()
 
 class Term(Period):
     def __init__(self, date: date, name: str):
         date = date - timedelta(days=date.weekday())
         Period.__init__(self, date, name)
 
-    def getWeekNum(self, today: date):
+    def getWeekNum(self, today: date) -> int:
         return (today - self.start).days // 7 + 1
 
-    def toString(self, today: date, short=False, lowerC=False):
+    def toString(self, today: date, short:bool=False, lowerC:bool=False) -> str:
         weeknum = self.getWeekNum(today)
         t = self.name[:3] if short else self.name
         d = day_abbr[today.weekday()] if short else day_name[today.weekday()]
-        result = "{}/{}/{}".format(t, self.getWeekNum(today), d)
+        result = "{}/{}/{}".format(t, weeknum, d)
         return result.lower() if lowerC else result
 
 class Holiday(Period):
     def __init__(self, date: date, name: str):
         Period.__init__(self, date, name)
 
-    def toString(self, today: date, short=False, lowerC=False):
+    def toString(self, today: date, short:bool=False, lowerC:bool=False) -> str:
         result = self.name + ("" if short else " Holidays")
         return result.lower() if lowerC else result
 
