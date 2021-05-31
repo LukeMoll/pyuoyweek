@@ -7,6 +7,12 @@ pyuoyweek uses Python 3 -- it is not compatible with Python 2.
 If you just want to use pyuoyweek, you can simply download [uoyweek.py][main] - it's all self-contained. If you'd like, you can copy `uoyweek.py` to a folder on your `$PATH` and rename it to `uoyweek`, basically turning it into a command that you'd call with `uoyweek`.  
 You can also clone the repository if you'd like to add new term dates (there's a helpful script in `tools/` for that) or otherwise contribute :)
 
+### With Pip
+Although pyuoyweek is not on [pypi][pypi], you can install the latest version via pip with the following command:
+```
+pip install git+https://github.com/lukemoll/pyuoyweek.git
+```
+
 ## Usage
 Simply run `./uoyweek.py` or `python3 uoyweek.py`. More options can be found with the `-h` flag, such as lowercase (`-l`) or short output (`-s`).
 
@@ -66,3 +72,4 @@ This project is licensed under the [BSD 3-Clause][license] license.
 [main]: https://raw.githubusercontent.com/LukeMoll/pyuoyweek/master/uoyweek.py "uoyweek.py on GitHub"
 [milestones]: https://github.com/LukeMoll/pyuoyweek/milestones
 [license]: https://github.com/LukeMoll/pyuoyweek/blob/master/LICENSE
+[pypi]: https://pypi.org/
