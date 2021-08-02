@@ -18,10 +18,26 @@ today = date.today()
 
 def lstart(p): return p.start # replaces a load of `lambda p:p.start` in sorts - might be useful in uoyweek.py
 
-def getAcademicTerms():
-    atm = max(filter(lambda p:type(p) is uoyweek.Term and p.name is "Autumn" and today >= p.start, uoyweek.dates), key=lstart)
-    spr = min(filter(lambda p:p.name is "Spring" and p.start > atm.start, uoyweek.dates), key=lstart)
-    smm = min(filter(lambda p:p.name is "Summer" and p.start > atm.start, uoyweek.dates), key=lstart)
+def getAcademicTerms():    
+    # Get the nearest {aut,spr,smm} term that hasn't started yet
+    atm = min(filter(lambda p:type(p) is uoyweek.Term and p.name is "Autumn" and today < p.start, uoyweek.dates), key=lstart)
+    spr = min(filter(lambda p:type(p) is uoyweek.Term and p.name is "Spring" and today < p.start, uoyweek.dates), key=lstart)
+    smm = min(filter(lambda p:type(p) is uoyweek.Term and p.name is "Summer" and today < p.start, uoyweek.dates), key=lstart)
+
+    period = uoyweek.getPeriod(today)
+    if type(period) is uoyweek.Term:
+        # We're in a term time, so one of (atm,spr,smm) should be overridden
+        if period.name is "Autumn":
+            atm = period
+        elif period.name is "Spring":
+            spr = period
+        elif period.name is "Summer":
+            smm = period
+        else:
+            raise RuntimeError("Unexpected term name '%s' for current period".format(period.name))
+
+    # at most one of these should be current
+    # the rest should be upcoming
     return (atm,spr,smm)
 
 (atm,spr,smm) = getAcademicTerms()    
