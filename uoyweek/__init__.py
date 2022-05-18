@@ -14,6 +14,78 @@ def main() -> None:
     lower = args.lower
     print(getPeriod(date.today()).toString(date.today(),short=short, lowerC=lower))
 
+class Semester:
+    __weeks = [
+        "Freshers Week",
+        "Teaching Week 1",
+        "Teaching Week 2",
+        "Teaching Week 3",
+        "Teaching Week 4",
+        "Teaching Week 5",
+        "Consolidation Week",
+        "Teaching Week 6",
+        "Teaching Week 7",
+        "Teaching Week 8",
+        "Teaching Week 9",
+        "Teaching Week 10",
+        "Teaching Week 11",
+        "Teaching Week 12",
+        "Christmas Week 1",
+        "Christmas Week 2",
+        "Christmas Week 3",
+        "Revision Week 1",
+        "Assessment Week 1",
+        "Assessment Week 2",
+        "Assessment Week 3",
+        "Refreshers Week",
+        "Teaching Week 1",
+        "Teaching Week 2",
+        "Teaching Week 3",
+        "Teaching Week 4",
+        "Teaching Week 5",
+        "Teaching Week 6",
+        "Easter Week 1",
+        "Easter Week 2",
+        "Teaching Week 7",
+        "Teaching Week 8",
+        "Teaching Week 9",
+        "Teaching Week 10",
+        "Teaching Week 11",
+        "Revision Week 1",
+        "Assessment Week 1",
+        "Assessment Week 2",
+        "Assessment Week 3",
+        "Summer Week 1",
+        "Summer Week 2",
+        "Summer Week 3",
+        "Summer Week 4",
+        "Summer Week 5",
+        "Summer Week 6",
+        "Summer Week 7",
+        "Summer Week 8",
+        "Summer Week 9",
+        "Summer Week 10",
+        "Summer Week 11",
+        "Summer Week 12",
+        "Summer Week 13",
+        "Summer Week 14",
+        "Summer Week 15"
+    ]
+
+    def __init__(self, start_date: date, date:date =date.today):
+        self.start_date = start_date
+        self.date = date
+
+    def __str__(self) -> str:
+        return self.get_week()
+    
+    def get_week(self) -> str:
+        if (self.date < self.start_date):
+            raise ValueError("Start date is in the future, when compared to the date")
+
+        return self.__weeks[(self.date - self.start_date).days // 7]
+
+
 class Period:
     def __init__(self, date: date, name: str):
         self.start = date
