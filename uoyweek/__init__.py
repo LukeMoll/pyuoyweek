@@ -14,77 +14,62 @@ def main() -> None:
     lower = args.lower
     print(getPeriod(date.today()).toString(date.today(),short=short, lowerC=lower))
 
-class Semester:
-    __weeks = [
-        "Freshers Week",
-        "Teaching Week 1",
-        "Teaching Week 2",
-        "Teaching Week 3",
-        "Teaching Week 4",
-        "Teaching Week 5",
-        "Consolidation Week",
-        "Teaching Week 6",
-        "Teaching Week 7",
-        "Teaching Week 8",
-        "Teaching Week 9",
-        "Teaching Week 10",
-        "Teaching Week 11",
-        "Teaching Week 12",
-        "Christmas Week 1",
-        "Christmas Week 2",
-        "Christmas Week 3",
-        "Revision Week 1",
-        "Assessment Week 1",
-        "Assessment Week 2",
-        "Assessment Week 3",
-        "Refreshers Week",
-        "Teaching Week 1",
-        "Teaching Week 2",
-        "Teaching Week 3",
-        "Teaching Week 4",
-        "Teaching Week 5",
-        "Teaching Week 6",
-        "Easter Week 1",
-        "Easter Week 2",
-        "Teaching Week 7",
-        "Teaching Week 8",
-        "Teaching Week 9",
-        "Teaching Week 10",
-        "Teaching Week 11",
-        "Revision Week 1",
-        "Assessment Week 1",
-        "Assessment Week 2",
-        "Assessment Week 3",
-        "Summer Week 1",
-        "Summer Week 2",
-        "Summer Week 3",
-        "Summer Week 4",
-        "Summer Week 5",
-        "Summer Week 6",
-        "Summer Week 7",
-        "Summer Week 8",
-        "Summer Week 9",
-        "Summer Week 10",
-        "Summer Week 11",
-        "Summer Week 12",
-        "Summer Week 13",
-        "Summer Week 14",
-        "Summer Week 15"
-    ]
-
-    def __init__(self, start_date: date, date:date =date.today):
-        self.start_date = start_date
-        self.date = date
-
-    def __str__(self) -> str:
-        return self.get_week()
-    
-    def get_week(self) -> str:
-        if (self.date < self.start_date):
-            raise ValueError("Start date is in the future, when compared to the date")
-
-        return self.__weeks[(self.date - self.start_date).days // 7]
-
+semester_weeks = [
+    "Freshers Week",
+    "Teaching Week 1",
+    "Teaching Week 2",
+    "Teaching Week 3",
+    "Teaching Week 4",
+    "Teaching Week 5",
+    "Consolidation Week",
+    "Teaching Week 6",
+    "Teaching Week 7",
+    "Teaching Week 8",
+    "Teaching Week 9",
+    "Teaching Week 10",
+    "Teaching Week 11",
+    "Teaching Week 12",
+    "Christmas Week 1",
+    "Christmas Week 2",
+    "Christmas Week 3",
+    "Revision Week 1",
+    "Assessment Week 1",
+    "Assessment Week 2",
+    "Assessment Week 3",
+    "Refreshers Week",
+    "Teaching Week 1",
+    "Teaching Week 2",
+    "Teaching Week 3",
+    "Teaching Week 4",
+    "Teaching Week 5",
+    "Teaching Week 6",
+    "Easter Week 1",
+    "Easter Week 2",
+    "Teaching Week 7",
+    "Teaching Week 8",
+    "Teaching Week 9",
+    "Teaching Week 10",
+    "Teaching Week 11",
+    "Revision Week 1",
+    "Assessment Week 1",
+    "Assessment Week 2",
+    "Assessment Week 3",
+    "Summer Week 1",
+    "Summer Week 2",
+    "Summer Week 3",
+    "Summer Week 4",
+    "Summer Week 5",
+    "Summer Week 6",
+    "Summer Week 7",
+    "Summer Week 8",
+    "Summer Week 9",
+    "Summer Week 10",
+    "Summer Week 11",
+    "Summer Week 12",
+    "Summer Week 13",
+    "Summer Week 14",
+    "Summer Week 15"
+]
 
 class Period:
     def __init__(self, date: date, name: str):
@@ -101,6 +86,16 @@ class Period:
 
     def __repr__(self) -> str: return self.__str__()
 
+class Semester(Period):
+    def __init__(self, start: date):
+        self.start = start
+        self.date = date
+    
+    def get_week(self, date: date) -> str:
+        if (date < self.start):
+            raise ValueError("Start date is in the future, when compared to the date")
+
+        return semester_weeks[(date - self.start).days // 7]
 class Term(Period):
     def __init__(self, date: date, name: str):
         date = date - timedelta(days=date.weekday())
@@ -168,36 +163,6 @@ dates = sorted([
     Holiday(date(2023,3,17),"Easter"),
     Term(date(2023,4,17),"Summer"),
     Holiday(date(2023,6,23),"Summer"),
-    Term(date(2023,9,25),"Autumn"),
-    Holiday(date(2023,12,1),"Christmas"),
-    Term(date(2024,1,8),"Spring"),
-    Holiday(date(2024,3,15), "Easter"),
-    Term(date(2024,4,15), "Summer"),
-    Holiday(date(2024,6,21), "Summer"),
-    Term(date(2024,9,23),"Autumn"),
-    Holiday(date(2024,11,29),"Christmas"),
-    Term(date(2025,1,6),"Spring"),
-    Holiday(date(2025,3,14),"Easter"),
-    Term(date(2025,4,22),"Summer"),
-    Holiday(date(2025,6,27),"Summer"),
-    Term(date(2025,9,29),"Autumn"),
-    Holiday(date(2025,12,5),"Christmas"),
-    Term(date(2026,1,12),"Spring"),
-    Holiday(date(2026,3,20),"Easter"),
-    Term(date(2026,4,20),"Summer"),
-    Holiday(date(2026,6,26),"Summer"),
-    Term(date(2026,9,28),"Autumn"),
-    Holiday(date(2026,12,4),"Christmas"),
-    Term(date(2027,1,11),"Spring"),
-    Holiday(date(2027,3,19),"Easter"),
-    Term(date(2027,4,19),"Summer"),
-    Holiday(date(2027,6,25),"Summer"),
-    Term(date(2027,9,27),"Autumn"),
-    Holiday(date(2027,12,3),"Christmas"),
-    Term(date(2028,1,10),"Spring"),
-    Holiday(date(2028,3,17),"Easter"),
-    Term(date(2028,4,24),"Summer"),
-    Holiday(date(2028,6,30),"Summer")
 ], key=lambda p:p.start)
 
 def getPeriod(today: date) -> Period:
