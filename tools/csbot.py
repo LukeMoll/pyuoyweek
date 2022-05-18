@@ -24,7 +24,7 @@ def getAcademicTerms():
     spr = min(filter(lambda p:type(p) is uoyweek.Term and p.name is "Spring" and today < p.start, uoyweek.dates), key=lstart)
     smm = min(filter(lambda p:type(p) is uoyweek.Term and p.name is "Summer" and today < p.start, uoyweek.dates), key=lstart)
 
-    period = uoyweek.getPeriod(today)
+    period = uoyweek.get_period(today)
     if type(period) is uoyweek.Term:
         # We're in a term time, so one of (atm,spr,smm) should be overridden
         if period.name is "Autumn":

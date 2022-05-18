@@ -12,7 +12,7 @@ def main() -> None:
     args = parser.parse_args()
     short = args.short
     lower = args.lower
-    print(getPeriod(date.today()).toString(date.today(),short=short, lowerC=lower))
+    print(get_period(date.today()).toString(date.today(),short=short, lowerC=lower))
 
 semester_weeks = [
     "Freshers Week",
@@ -89,7 +89,7 @@ class Period:
 class Semester:
     def __init__(self, start: date):
         self.start = start
-        
+
     def get_week(self, date: date) -> str:
         if (date < self.start):
             raise ValueError("Start date is in the future, when compared to the date")
@@ -164,7 +164,7 @@ dates = sorted([
     Holiday(date(2023,6,23),"Summer"),
 ], key=lambda p:p.start)
 
-def getPeriod(today: date) -> Period:
+def get_period(today: date) -> Period:
     """Returns the Period in which a given date falls
     
     Args:
