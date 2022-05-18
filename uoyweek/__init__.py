@@ -86,11 +86,10 @@ class Period:
 
     def __repr__(self) -> str: return self.__str__()
 
-class Semester(Period):
+class Semester:
     def __init__(self, start: date):
         self.start = start
-        self.date = date
-    
+        
     def get_week(self, date: date) -> str:
         if (date < self.start):
             raise ValueError("Start date is in the future, when compared to the date")
