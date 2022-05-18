@@ -12,7 +12,8 @@ def main() -> None:
     args = parser.parse_args()
     short = args.short
     lower = args.lower
-    print(get_period(date.today()).toString(date.today(),short=short, lowerC=lower))
+
+    print(get_period(date.today()).get_formatted_string(date.today(),short=short, lowerC=lower))
 
 semester_weeks = [
     "Freshers Week",
@@ -74,7 +75,7 @@ class Period:
         self.start = date
         self.name = name
     
-    def toString(self, today: date, short:bool=False, lowerC:bool=False) -> Union[str, None]:
+    def get_formatted_string(self, today: date, short:bool=False, lowerC:bool=False) -> Union[str, None]:
         if self.start <= today:
             return self.name
         else:
@@ -89,11 +90,14 @@ class Semester(Period):
         self.start = start
         Period.__init__(self, self.start, "Semester")
 
-    def get_week(self, date: date) -> str:
-        if (date < self.start):
-            raise ValueError("Start date is in the future, when compared to the date")
+    def get_formatted_string(self, today: date, short:bool=False, lowerC:bool=False) -> str:
+        if (today < self.start):
+            raise ValueError("Start date is in the future, when compared to the date provided.")
+        
+        if (today > (self.start + timedelta(weeks=52))):
+            raise ValueError("Date provided is too far in the future, this likely means that the most current Semester hasn't been provided")
 
-        return semester_weeks[(date - self.start).days // 7]
+        return semester_weeks[(today - self.start).days // 7]
 class Term(Period):
     def __init__(self, date: date, name: str):
         date = date - timedelta(days=date.weekday())
@@ -102,7 +106,7 @@ class Term(Period):
     def getWeekNum(self, today: date) -> int:
         return (today - self.start).days // 7 + 1
 
-    def toString(self, today: date, short:bool=False, lowerC:bool=False) -> str:
+    def get_formatted_string(self, today: date, short:bool=False, lowerC:bool=False) -> str:
         weeknum = self.getWeekNum(today)
         t = self.name[:3] if short else self.name
         d = day_abbr[today.weekday()] if short else day_name[today.weekday()]
@@ -113,7 +117,7 @@ class Holiday(Period):
     def __init__(self, date: date, name: str):
         Period.__init__(self, date, name)
 
-    def toString(self, today: date, short:bool=False, lowerC:bool=False) -> str:
+    def get_formatted_string(self, today: date, short:bool=False, lowerC:bool=False) -> str:
         result = self.name + ("" if short else " Holidays")
         return result.lower() if lowerC else result
 
@@ -161,7 +165,13 @@ dates = sorted([
     Holiday(date(2023,3,17),"Easter"),
     Term(date(2023,4,17),"Summer"),
     Holiday(date(2023,6,23),"Summer"),
-    Semester(date(2023,9,23)),
+    Semester(date(2023,9,18)),
+    Semester(date(2024,9,16)),
+    Semester(date(2025,9,21)),
+    Semester(date(2026,9,20)),
+    Semester(date(2027,9,18)),
+    Semester(date(2028,9,18)),
+    Semester(date(2029,9,17)),
 ], key=lambda p:p.start)
 
 def get_period(today: date) -> Period:
