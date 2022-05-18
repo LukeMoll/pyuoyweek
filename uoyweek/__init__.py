@@ -28,7 +28,6 @@ semester_weeks = [
     "Teaching Week 9",
     "Teaching Week 10",
     "Teaching Week 11",
-    "Teaching Week 12",
     "Christmas Week 1",
     "Christmas Week 2",
     "Christmas Week 3",
@@ -67,8 +66,7 @@ semester_weeks = [
     "Summer Week 11",
     "Summer Week 12",
     "Summer Week 13",
-    "Summer Week 14",
-    "Summer Week 15"
+    "Summer Week 14"
 ]
 
 class Period:
@@ -86,9 +84,10 @@ class Period:
 
     def __repr__(self) -> str: return self.__str__()
 
-class Semester:
+class Semester(Period):
     def __init__(self, start: date):
         self.start = start
+        Period.__init__(self, self.start, "Semester")
 
     def get_week(self, date: date) -> str:
         if (date < self.start):
@@ -162,6 +161,7 @@ dates = sorted([
     Holiday(date(2023,3,17),"Easter"),
     Term(date(2023,4,17),"Summer"),
     Holiday(date(2023,6,23),"Summer"),
+    Semester(date(2023,9,23)),
 ], key=lambda p:p.start)
 
 def get_period(today: date) -> Period:
